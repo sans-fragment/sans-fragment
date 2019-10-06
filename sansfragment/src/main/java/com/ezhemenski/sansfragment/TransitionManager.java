@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 class TransitionManager {
+
     interface Container {
         @Nullable
         View getCurrentView();
@@ -19,17 +20,17 @@ class TransitionManager {
 
     private final Container container;
 
+    private ValueAnimator animator = null;
+
     TransitionManager(Container container) {
         this.container = container;
     }
 
-    private ValueAnimator animator = null;
-
-    void putView(@NonNull View newView, @Nullable Transition transition, @NonNull Runnable onEnterTransitionEnd) {
+    void putView(final @NonNull View newView, @Nullable Transition transition, final @NonNull Runnable onEnterTransitionEnd) {
         if (animator != null) {
             animator.end();
         }
-        View oldView = container.getCurrentView();
+        final View oldView = container.getCurrentView();
         if (oldView == null) {
             container.addView(newView);
             Utils.doOnAttach(newView, onEnterTransitionEnd);
@@ -43,7 +44,12 @@ class TransitionManager {
         }
         final TransitionPerformer transitionPerformer = transition.create(oldView, newView);
         animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.addUpdateListener(animation -> transitionPerformer.onFraction(animation.getAnimatedFraction()));
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                transitionPerformer.onFraction(animation.getAnimatedFraction());
+            }
+        });
         animator.addListener(new AnimatorListenerAdapter() {
 
             @Override

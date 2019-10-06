@@ -79,7 +79,12 @@ class ViewStackController<S> implements Navigator<S> {
         if (stack.isEmpty()) {
             return;
         }
-        ViewHolder viewHolder = adapter.createViewHolder(stack.peek(), this);
-        transitionManager.putView(viewHolder.rootView, transition, viewHolder::onEnterTransitionEnd);
+        final ViewHolder viewHolder = adapter.createViewHolder(stack.peek(), this);
+        transitionManager.putView(viewHolder.rootView, transition, new Runnable() {
+            @Override
+            public void run() {
+                viewHolder.onEnterTransitionEnd();
+            }
+        });
     }
 }

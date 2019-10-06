@@ -1,20 +1,19 @@
 package com.ezhemenski.sansfragment;
 
 import android.content.Context;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import java.util.Collection;
-import java.util.Collections;
-
 @SuppressWarnings("unused")
 public class ViewStackFrameLayout extends FrameLayout {
 
     public interface Adapter<S> {
-        @NonNull ViewHolder createViewHolder(
+        @NonNull
+        ViewHolder createViewHolder(
                 @NonNull ViewStackFrameLayout container,
                 @NonNull S screen,
                 @NonNull Navigator<S> navigator
@@ -54,18 +53,25 @@ public class ViewStackFrameLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public <S> Navigator<S> initViewStack(@NonNull Collection<S> initialStack, Adapter<S> adapter) {
-        removeAllViews();
-        ViewStackController<S> controller = new ViewStackController<>(
-                (screen, navigator) ->
-                        adapter.createViewHolder(ViewStackFrameLayout.this, screen, navigator),
-                container
-        );
-        controller.set(initialStack);
-        return controller;
+    @MainThread
+    public <S> Navigator<S> initViewStack(@NonNull S initialScreen, final Adapter<S> adapter) {
+        Navigator<S> navigator = setAdapter(adapter);
+        navigator.push(initialScreen);
+        return navigator;
     }
 
-    public <S> Navigator<S> setAdapter(Adapter<S> adapter) {
-        return initViewStack(Collections.emptyList(), adapter);
+    @MainThread
+    public <S> Navigator<S> setAdapter(final Adapter<S> adapter) {
+        removeAllViews();
+        return new ViewStackController<>(
+                new com.ezhemenski.sansfragment.Adapter<S>() {
+                    @NonNull
+                    @Override
+                    public ViewHolder createViewHolder(@NonNull S screen, @NonNull Navigator<S> navigator) {
+                        return adapter.createViewHolder(ViewStackFrameLayout.this, screen, navigator);
+                    }
+                },
+                container
+        );
     }
 }

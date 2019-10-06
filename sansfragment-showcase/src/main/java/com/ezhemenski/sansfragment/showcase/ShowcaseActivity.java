@@ -5,16 +5,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.ezhemenski.sansfragment.Navigator;
 import com.ezhemenski.sansfragment.ViewHolder;
 import com.ezhemenski.sansfragment.ViewStackFrameLayout;
 
-import java.util.Collections;
-
 import static com.ezhemenski.sansfragment.Transitions.FADE;
 
-public class ShowcaseActivity extends AppCompatActivity {
+public class ShowcaseActivity extends AppCompatActivity implements ViewStackFrameLayout.Adapter<ShowcaseActivity.Screen> {
 
     enum Screen {ONE, TWO, THREE}
 
@@ -26,19 +25,21 @@ public class ShowcaseActivity extends AppCompatActivity {
 
         setContentView(R.layout.view_showcase);
         ViewStackFrameLayout container = findViewById(R.id.container);
-        navigator = container.initViewStack(
-                Collections.singleton(Screen.ONE),
-                (c, screen, navigator) -> {
-                    switch (screen) {
-                        default:
-                        case ONE:
-                            return new OneViewHolder(c, navigator);
-                        case TWO:
-                            return new TwoViewHolder(c, navigator);
-                        case THREE:
-                            return new ThreeViewHolder(c);
-                    }
-                });
+        navigator = container.initViewStack(Screen.ONE, this);
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder createViewHolder(@NonNull ViewStackFrameLayout container, @NonNull Screen screen, @NonNull Navigator<Screen> navigator) {
+        switch (screen) {
+            default:
+            case ONE:
+                return new OneViewHolder(container, navigator);
+            case TWO:
+                return new TwoViewHolder(container, navigator);
+            case THREE:
+                return new ThreeViewHolder(container);
+        }
     }
 
     @Override
@@ -48,19 +49,35 @@ public class ShowcaseActivity extends AppCompatActivity {
         }
     }
 
-    public static class OneViewHolder extends LoggingViewHolder {
+    public static class OneViewHolder extends LoggingViewHolder implements View.OnClickListener {
+
+        private final Navigator<Screen> navigator;
 
         OneViewHolder(@NonNull ViewStackFrameLayout container, @NonNull Navigator<Screen> navigator) {
             super(container, R.layout.view_one);
-            rootView.setOnClickListener(v -> navigator.push(Screen.TWO, FADE));
+            this.navigator = navigator;
+            rootView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            navigator.push(Screen.TWO, FADE);
         }
     }
 
-    public static class TwoViewHolder extends LoggingViewHolder {
+    public static class TwoViewHolder extends LoggingViewHolder implements View.OnClickListener {
+
+        private final Navigator<Screen> navigator;
 
         TwoViewHolder(@NonNull ViewStackFrameLayout container, @NonNull Navigator<Screen> navigator) {
             super(container, R.layout.view_two);
-            rootView.setOnClickListener(v -> navigator.push(Screen.THREE, FADE));
+            this.navigator = navigator;
+            rootView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            navigator.push(Screen.THREE, FADE);
         }
     }
 
