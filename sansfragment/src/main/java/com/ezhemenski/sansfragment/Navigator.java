@@ -34,5 +34,8 @@ public interface Navigator<S> {
 
     @MainThread
     @NonNull
-    Collection<S> stackSnapshot();
+    Collection<S> getStackSnapshot();
+
+    @Nullable
+    S getTop();
 }

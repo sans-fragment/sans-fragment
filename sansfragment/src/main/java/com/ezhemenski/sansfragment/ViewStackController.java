@@ -71,8 +71,14 @@ class ViewStackController<S> implements Navigator<S> {
 
     @NonNull
     @Override
-    public Collection<S> stackSnapshot() {
+    public Collection<S> getStackSnapshot() {
         return new ArrayList<>(stack);
+    }
+
+    @Nullable
+    @Override
+    public S getTop() {
+        return stack.peek();
     }
 
     private void putTopScreen(Transition transition) {
