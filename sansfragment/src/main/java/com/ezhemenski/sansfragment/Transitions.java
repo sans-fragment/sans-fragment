@@ -11,4 +11,20 @@ public class Transitions {
             return new FadeTransitionPerformer(oldView, newView);
         }
     };
+
+    public static final Transition SLIDE_IN = new Transition() {
+        @NonNull
+        @Override
+        public TransitionPerformer create(@NonNull View oldView, @NonNull View newView) {
+            return new SlideInTransitionPerformer(oldView, newView);
+        }
+    };
+
+    public static final Transition SLIDE_OUT = new Transition() {
+        @NonNull
+        @Override
+        public TransitionPerformer create(@NonNull View oldView, @NonNull View newView) {
+            return new SlideOutTransitionPerformer(oldView, newView);
+        }
+    };
 }

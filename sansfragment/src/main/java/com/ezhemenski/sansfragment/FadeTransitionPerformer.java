@@ -3,7 +3,7 @@ package com.ezhemenski.sansfragment;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-public class FadeTransitionPerformer extends TransitionPerformer {
+class FadeTransitionPerformer extends TransitionPerformer {
 
     FadeTransitionPerformer(@NonNull View oldView, @NonNull View newView) {
         super(oldView, newView);

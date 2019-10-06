@@ -12,6 +12,8 @@ import com.ezhemenski.sansfragment.ViewHolder;
 import com.ezhemenski.sansfragment.ViewStackFrameLayout;
 
 import static com.ezhemenski.sansfragment.Transitions.FADE;
+import static com.ezhemenski.sansfragment.Transitions.SLIDE_IN;
+import static com.ezhemenski.sansfragment.Transitions.SLIDE_OUT;
 
 public class ShowcaseActivity extends AppCompatActivity implements ViewStackFrameLayout.Adapter<ShowcaseActivity.Screen> {
 
@@ -44,7 +46,7 @@ public class ShowcaseActivity extends AppCompatActivity implements ViewStackFram
 
     @Override
     public void onBackPressed() {
-        if (!navigator.goBack(FADE)) {
+        if (!navigator.goBack(SLIDE_OUT)) {
             super.onBackPressed();
         }
     }
@@ -77,7 +79,7 @@ public class ShowcaseActivity extends AppCompatActivity implements ViewStackFram
 
         @Override
         public void onClick(View v) {
-            navigator.push(Screen.THREE, FADE);
+            navigator.push(Screen.THREE, SLIDE_IN);
         }
     }
 
