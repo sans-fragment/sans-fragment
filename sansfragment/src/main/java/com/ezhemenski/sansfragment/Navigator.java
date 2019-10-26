@@ -38,4 +38,6 @@ public interface Navigator<S> {
 
     @Nullable
     S getTop();
+
+    void skipTransition();
 }

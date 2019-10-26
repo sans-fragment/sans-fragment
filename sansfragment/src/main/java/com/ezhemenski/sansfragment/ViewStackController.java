@@ -93,4 +93,9 @@ class ViewStackController<S> implements Navigator<S> {
             }
         });
     }
+
+    @Override
+    public void skipTransition() {
+        transitionManager.skip();
+    }
 }

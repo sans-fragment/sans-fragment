@@ -27,9 +27,7 @@ class TransitionManager {
     }
 
     void putView(final @NonNull View newView, @Nullable Transition transition, final @NonNull Runnable onEnterTransitionEnd) {
-        if (animator != null) {
-            animator.end();
-        }
+        skip();
         final View oldView = container.getCurrentView();
         if (oldView == null) {
             container.addView(newView);
@@ -66,5 +64,11 @@ class TransitionManager {
         });
         animator.setDuration(transitionPerformer.duration());
         animator.start();
+    }
+
+    void skip() {
+        if (animator != null) {
+            animator.end();
+        }
     }
 }
