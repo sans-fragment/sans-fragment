@@ -1,13 +1,17 @@
 package com.ezhemenski.sansfragment;
 
-import android.support.v4.view.ViewCompat;
 import android.view.View;
+
+import androidx.core.view.ViewCompat;
 
 class SlideOutTransitionPerformer extends TransitionPerformer {
 
     SlideOutTransitionPerformer(View oldView, View newView) {
         super(oldView, newView);
+    }
 
+    @Override
+    public void onStart() {
         ViewCompat.setZ(oldView, ViewCompat.getZ(newView) + 1);
     }
 

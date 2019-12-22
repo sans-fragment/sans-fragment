@@ -1,7 +1,8 @@
 package com.ezhemenski.sansfragment;
 
-import android.support.annotation.FloatRange;
 import android.view.View;
+
+import androidx.annotation.FloatRange;
 
 @SuppressWarnings("WeakerAccess")
 abstract public class TransitionPerformer {
@@ -12,6 +13,8 @@ abstract public class TransitionPerformer {
         this.oldView = oldView;
         this.newView = newView;
     }
+
+    public abstract void onStart();
 
     public abstract void onFraction(@FloatRange(from = 0.0, to = 1.0) float fraction);
 

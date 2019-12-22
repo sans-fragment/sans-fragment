@@ -1,12 +1,17 @@
 package com.ezhemenski.sansfragment;
 
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 class FadeTransitionPerformer extends TransitionPerformer {
 
     FadeTransitionPerformer(@NonNull View oldView, @NonNull View newView) {
         super(oldView, newView);
+    }
+
+    @Override
+    public void onStart() {
     }
 
     @Override

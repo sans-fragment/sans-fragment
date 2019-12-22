@@ -1,10 +1,11 @@
 package com.ezhemenski.sansfragment;
 
 import android.content.Context;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 
 public class ViewHolder {
 

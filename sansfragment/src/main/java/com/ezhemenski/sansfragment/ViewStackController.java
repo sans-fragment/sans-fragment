@@ -1,7 +1,7 @@
 package com.ezhemenski.sansfragment;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

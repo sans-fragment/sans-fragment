@@ -1,12 +1,13 @@
 package com.ezhemenski.sansfragment;
 
 import android.content.Context;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public class ViewStackFrameLayout extends FrameLayout {

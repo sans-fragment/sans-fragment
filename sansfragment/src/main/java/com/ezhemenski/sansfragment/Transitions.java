@@ -1,7 +1,8 @@
 package com.ezhemenski.sansfragment;
 
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 public class Transitions {
     public static final Transition FADE = new Transition() {

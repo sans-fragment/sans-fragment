@@ -6,6 +6,10 @@ class SlideInTransitionPerformer extends TransitionPerformer {
 
     SlideInTransitionPerformer(View oldView, View newView) {
         super(oldView, newView);
+    }
+
+    @Override
+    public void onStart() {
         newView.setTranslationY(newView.getContext().getResources().getDisplayMetrics().heightPixels);
     }
 
