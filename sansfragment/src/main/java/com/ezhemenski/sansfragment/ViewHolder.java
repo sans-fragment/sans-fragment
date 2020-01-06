@@ -6,10 +6,18 @@ import android.view.View;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-public class ViewHolder {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ViewHolder implements TransitionTracker {
 
     protected final View rootView;
+
+    private final List<Runnable> doOnTransitionEnd = new ArrayList<>();
+    private boolean isReadyToRender = false;
+    private TransitionTracker parentTransitionTracker = null;
 
     @SuppressWarnings("WeakerAccess")
     public ViewHolder(@NonNull View rootView) {
@@ -41,9 +49,43 @@ public class ViewHolder {
 
     @CallSuper
     protected void onDetach() {
+        doOnTransitionEnd.clear();
+        isReadyToRender = false;
     }
 
     @CallSuper
     protected void onEnterTransitionEnd() {
+        for (Runnable task : doOnTransitionEnd) {
+            task.run();
+        }
+        doOnTransitionEnd.clear();
+        isReadyToRender = true;
+    }
+
+    public void setParentTransitionTracker(@Nullable TransitionTracker parentTransitionTracker) {
+        this.parentTransitionTracker = parentTransitionTracker;
+    }
+
+    private void onReadyToRenderInner(Runnable task) {
+        if (isReadyToRender) {
+            task.run();
+            return;
+        }
+        doOnTransitionEnd.add(task);
+    }
+
+    @Override
+    public void onReadyToRender(@NonNull final Runnable task) {
+        TransitionTracker p = parentTransitionTracker;
+        if (p != null) {
+            p.onReadyToRender(new Runnable() {
+                @Override
+                public void run() {
+                    onReadyToRenderInner(task);
+                }
+            });
+            return;
+        }
+        onReadyToRenderInner(task);
     }
 }

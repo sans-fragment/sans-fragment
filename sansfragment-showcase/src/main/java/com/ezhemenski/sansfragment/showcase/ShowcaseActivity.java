@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ezhemenski.sansfragment.Navigator;
+import com.ezhemenski.sansfragment.TransitionTracker;
 import com.ezhemenski.sansfragment.ViewHolder;
 import com.ezhemenski.sansfragment.ViewStackFrameLayout;
 
@@ -16,7 +17,8 @@ import static com.ezhemenski.sansfragment.Transitions.FADE;
 import static com.ezhemenski.sansfragment.Transitions.SLIDE_IN;
 import static com.ezhemenski.sansfragment.Transitions.SLIDE_OUT;
 
-public class ShowcaseActivity extends AppCompatActivity implements ViewStackFrameLayout.Adapter<ShowcaseActivity.Screen> {
+public class ShowcaseActivity extends AppCompatActivity
+        implements ViewStackFrameLayout.Adapter<ShowcaseActivity.Screen>, TransitionTracker {
 
     enum Screen {ONE, TWO, THREE}
 
@@ -41,7 +43,7 @@ public class ShowcaseActivity extends AppCompatActivity implements ViewStackFram
             case TWO:
                 return new TwoViewHolder(container, navigator);
             case THREE:
-                return new ThreeViewHolder(container);
+                return new ThreeViewHolder(container, this);
         }
     }
 
@@ -50,6 +52,11 @@ public class ShowcaseActivity extends AppCompatActivity implements ViewStackFram
         if (!navigator.goBack(SLIDE_OUT)) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onReadyToRender(Runnable task) {
+        task.run();
     }
 
     public static class OneViewHolder extends LoggingViewHolder implements View.OnClickListener {
@@ -86,12 +93,15 @@ public class ShowcaseActivity extends AppCompatActivity implements ViewStackFram
 
     public static class ThreeViewHolder extends LoggingViewHolder {
 
-        ThreeViewHolder(@NonNull ViewStackFrameLayout container) {
+        ThreeViewHolder(@NonNull ViewStackFrameLayout container, TransitionTracker parentTransitionTracker) {
             super(container, R.layout.view_three);
+            setParentTransitionTracker(parentTransitionTracker);
         }
     }
 
     public static class LoggingViewHolder extends ViewHolder {
+
+        private  String tag = this.getClass().getSimpleName();
 
         LoggingViewHolder(@NonNull ViewStackFrameLayout container, int layoutRes) {
             super(container, layoutRes);
@@ -100,19 +110,25 @@ public class ShowcaseActivity extends AppCompatActivity implements ViewStackFram
         @Override
         protected void onAttach() {
             super.onAttach();
-            Log.i(this.getClass().getSimpleName(), "onAttach");
+            Log.i(tag, "onAttach()");
+            onReadyToRender(new Runnable() {
+                @Override
+                public void run() {
+                    Log.i(tag, "I'm ready to render!");
+                }
+            });
         }
 
         @Override
         protected void onEnterTransitionEnd() {
             super.onEnterTransitionEnd();
-            Log.i(this.getClass().getSimpleName(), "onEnterTransitionEnd()");
+            Log.i(tag, "onEnterTransitionEnd()");
         }
 
         @Override
         protected void onDetach() {
             super.onDetach();
-            Log.i(this.getClass().getSimpleName(), "onDetach()");
+            Log.i(tag, "onDetach()");
         }
     }
 }

@@ -13,7 +13,7 @@ class Utils {
 
             @Override
             public void onViewDetachedFromWindow(View v) {
-
+                view.removeOnAttachStateChangeListener(this);
             }
         });
     }
