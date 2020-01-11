@@ -19,6 +19,9 @@ in app module build.gradle
  }
 ```
 Example of use:
+
+<image src=sans-fragment-demo.gif width=300 />
+
 ```kotlin
 
 enum class Screen {
