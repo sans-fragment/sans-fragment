@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.OneShotPreDrawListener;
 
 class TransitionManager {
 
@@ -32,13 +33,13 @@ class TransitionManager {
         final View oldView = container.getCurrentView();
         if (oldView == null) {
             container.addView(newView);
-            Utils.doOnAttach(newView, onEnterTransitionEnd);
+            OneShotPreDrawListener.add(newView, onEnterTransitionEnd);
             return;
         }
         if (transition == null) {
             container.removeView(oldView);
             container.addView(newView);
-            Utils.doOnAttach(newView, onEnterTransitionEnd);
+            OneShotPreDrawListener.add(newView, onEnterTransitionEnd);
             return;
         }
         final TransitionPerformer transitionPerformer = transition.create(oldView, newView);
