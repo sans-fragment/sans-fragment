@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        screenNavigator.set(Screen.FIRST)
+        screenNavigator.set(Screen.FIRST) // or set restored stack, see exaple "backstack"
     }
 
     override fun onBackPressed() {
