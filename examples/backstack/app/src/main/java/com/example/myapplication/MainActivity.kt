@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        screenNavigator.set(Screen.FIRST)
+        screenNavigator.set(getStack(savedInstanceState))
     }
 
     override fun onBackPressed() {
@@ -33,5 +33,25 @@ class MainActivity : AppCompatActivity() {
             return
         }
         finish()
+    }
+
+    //For saving stack in "saved state"
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putIntegerArrayList(
+            STACK_KEY,
+            ArrayList(screenNavigator.stackSnapshot.map { it.ordinal })
+        )
+    }
+
+    //for restoring saved stack
+    private fun getStack(savedInstanceState: Bundle?): List<Screen> =
+        savedInstanceState?.getIntegerArrayList(STACK_KEY)
+            ?.map { Screen.values()[it] }
+            ?: listOf(Screen.FIRST)
+
+    companion object {
+        const val STACK_KEY = "MainActivity.stack"
     }
 }
