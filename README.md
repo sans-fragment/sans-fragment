@@ -15,7 +15,7 @@ in root build.gradle
 in app module build.gradle
 ```groovy
  dependencies {
-  implementation 'com.github.sans-fragment:sans-fragment:1.0.6'
+  implementation 'com.github.sans-fragment:sans-fragment:1.0.7'
  }
 ```
 Example of use:
