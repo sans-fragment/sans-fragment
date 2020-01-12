@@ -1,6 +1,6 @@
 # sans-fragment
 
-Easy to use "Fragment" replacement for multiscreen single activity apps
+Easy to use "Fragment" replacement for single activity apps
 
 Add lib to project: <br />
 in root build.gradle
