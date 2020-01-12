@@ -13,6 +13,7 @@ class ViewStackController<S> implements Navigator<S> {
     private final Adapter<S> adapter;
     private final TransitionManager transitionManager;
     private final Deque<S> stack = new ArrayDeque<>();
+    private ViewHolder currentViewHolder = null;
 
     ViewStackController(Adapter<S> adapter, TransitionManager.Container container) {
         this.adapter = adapter;
@@ -85,7 +86,11 @@ class ViewStackController<S> implements Navigator<S> {
         if (stack.isEmpty()) {
             return;
         }
+        if (currentViewHolder != null) {
+            currentViewHolder.isReadyToRender = false;
+        }
         final ViewHolder viewHolder = adapter.createViewHolder(stack.peek(), this);
+        currentViewHolder = viewHolder;
         transitionManager.putView(viewHolder.rootView, transition, new Runnable() {
             @Override
             public void run() {

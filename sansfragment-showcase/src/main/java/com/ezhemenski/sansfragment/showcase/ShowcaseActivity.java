@@ -120,12 +120,6 @@ public class ShowcaseActivity extends AppCompatActivity
         }
 
         @Override
-        protected void onEnterTransitionEnd() {
-            super.onEnterTransitionEnd();
-            Log.i(tag, "onEnterTransitionEnd()");
-        }
-
-        @Override
         protected void onDetach() {
             super.onDetach();
             Log.i(tag, "onDetach()");

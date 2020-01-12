@@ -7,7 +7,7 @@ in root build.gradle
 ```groovy
  allprojects {
   repositories {
-   ...
+   //...
    maven { url 'https://jitpack.io' }
   }
  }
@@ -15,7 +15,8 @@ in root build.gradle
 in app module build.gradle
 ```groovy
  dependencies {
-  implementation 'com.github.sans-fragment:sans-fragment:1.0.7'
+  //...
+  implementation 'com.github.sans-fragment:sans-fragment:1.0.8'
  }
 ```
 Example of use:

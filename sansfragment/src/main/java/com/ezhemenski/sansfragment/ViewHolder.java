@@ -16,7 +16,7 @@ public class ViewHolder implements TransitionTracker {
     protected final View rootView;
 
     private final List<Runnable> doOnTransitionEnd = new ArrayList<>();
-    private boolean isReadyToRender = false;
+    boolean isReadyToRender = false;
     private TransitionTracker parentTransitionTracker = null;
 
     @SuppressWarnings("WeakerAccess")
@@ -53,8 +53,7 @@ public class ViewHolder implements TransitionTracker {
         isReadyToRender = false;
     }
 
-    @CallSuper
-    protected void onEnterTransitionEnd() {
+    void onEnterTransitionEnd() {
         for (Runnable task : doOnTransitionEnd) {
             task.run();
         }
